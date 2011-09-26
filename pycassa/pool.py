@@ -136,8 +136,8 @@ class ConnectionWrapper(Connection):
 
                 self._retry_count += 1
                 if self.max_retries != -1 and self._retry_count > self.max_retries:
-                    raise MaximumRetryException('Retried %d times. Last failure was %s: %s' %
-                                                (self._retry_count, exc.__class__.__name__, exc))
+                    raise MaximumRetryException('Retried %d times. Last failure was %s: %s. Known Servers: %s' %
+                                                (self._retry_count, exc.__class__.__name__, exc, str(self._pool.server_list)))
                 # Exponential backoff
                 time.sleep(_BASE_BACKOFF * (2 ** self._retry_count))
 
